@@ -44,7 +44,7 @@ gentelellaPage(
            helpText("Please push button only once and be patient for big data fetches.")
            )
             ),
-  dashboard_box(width = 12, box_title = "Unsampled data", menuItems = NULL,
+  dashboard_box(width = 12, box_title = "Unsampled data", menuItems = NULL, height = 800,
                 conditionalPanel("output.data_table", downloadButton("do_download", class = "btn btn-info")),
                 DT::dataTableOutput("data_table")
                 
