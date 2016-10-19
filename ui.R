@@ -7,18 +7,6 @@ options(googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/userinf
                                         "https://www.googleapis.com/auth/userinfo.profile",
                                         "https://www.googleapis.com/auth/analytics.readonly"))
 
-
-boxRow <- tagList(
-  dashboard_box(uiOutput("progress_bar2"), box_title = "Targets"),
-  dashboard_box(gaugeOutput("gauge1"), p("We are doing great!"),
-                box_title = "Flexdashboard Gauge", menuItems = NULL),
-  # dashboard_box(  chartJSRadarOutput("ID"))
-  dashboard_box(column(width = 12,
-                       d3heatmap::d3heatmapOutput("heatmap", width = 300, height = 250)
-  ),
-  box_title = "Heatmap")
-)
-
 menuItems <- list(
   sideBarElement(" Contact ",
                  icon = icon("envelope"),
