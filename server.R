@@ -14,7 +14,8 @@ function(input, output, session){
   
   access_token <- callModule(googleAuthR::googleAuth, "auth",
                              login_text = "Log in",
-                             logout_text = "Log off")
+                             logout_text = "Log off",
+                             approval_prompt = "force")
   
   ga_tables <- reactive({
     
