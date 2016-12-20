@@ -6,6 +6,9 @@ options(shiny.port = 1221)
 options(googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/userinfo.email",
                                         "https://www.googleapis.com/auth/userinfo.profile",
                                         "https://www.googleapis.com/auth/analytics.readonly"))
+options(googleAuthR.webapp.client_id = Sys.getenv("GOOGLE_WEB_CLIENTID"))
+options(googleAuthR.webapp.client_secret = Sys.getenv("GOOGLE_WEB_CLIENTSECRET"))
+
 
 menuItems <- list(
   sideBarElement(" Contact ",
@@ -43,13 +46,10 @@ gentelellaPage(
            actionButton("do_fetch", "Fetch Unsampled Data", class = "btn btn-primary"),
            helpText("Please push button only once and be patient for big data fetches.")
            )
-            ),
-  dashboard_box(width = 12, box_title = "Unsampled data", menuItems = NULL, height = 800,
-                conditionalPanel("output.data_table", downloadButton("do_download", class = "btn btn-info")),
-                DT::dataTableOutput("data_table")
-                
-    
-    
+    ),
+    dashboard_box(width = 12, box_title = "Unsampled data", menuItems = NULL, height = 800,
+                  conditionalPanel("output.data_table", downloadButton("do_download", class = "btn btn-info")),
+                  DT::dataTableOutput("data_table")
   ),
   menuItems = menuItems,
   title_tag = "IIH Nordic GA Helper",
