@@ -8,7 +8,8 @@ library(DT)
 options(shiny.port = 1221)
 options(googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/userinfo.email",
                                         "https://www.googleapis.com/auth/userinfo.profile",
-                                        "https://www.googleapis.com/auth/analytics.readonly"))
+                                        "https://www.googleapis.com/auth/analytics.readonly",
+                                        "https://www.googleapis.com/auth/analytics"))
 options(googleAuthR.webapp.client_id = Sys.getenv("GOOGLE_WEB_CLIENTID"))
 options(googleAuthR.webapp.client_secret = Sys.getenv("GOOGLE_WEB_CLIENTSECRET"))
 
@@ -22,7 +23,6 @@ function(input, output, session){
   ga_tables <- reactive({
     
     req(access_token())
-    
     with_shiny(google_analytics_account_list,
                shiny_access_token = access_token())
     
@@ -72,6 +72,14 @@ function(input, output, session){
   
   selected_id <- callModule(authDropdown, "auth_dropdown", ga_tables)
   
+  dl_ready <- reactiveValues(ok = FALSE)
+  
+  observeEvent(input$do_fetch, {
+    
+    shinyjs::show("working")
+    
+  })
+  
   dl_data <- eventReactive( input$do_fetch, {
     
     req(access_token())
@@ -80,7 +88,8 @@ function(input, output, session){
     req(input$dimension_select)
     req(input$date_select)
     
-    with_shiny(
+    ## disable download button
+    out <- with_shiny(
       google_analytics_4,
       viewId = selected_id(),
       date_range = c(input$date_select[1], input$date_select[2]),
@@ -91,6 +100,8 @@ function(input, output, session){
       shiny_access_token = access_token()
     )
     
+    shinyjs::hide("working")
+    out
   })
   
   ## download data

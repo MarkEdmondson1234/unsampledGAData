@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyjs)
 library(gentelellaShiny)
 library(googleAnalyticsR)
 
@@ -26,6 +27,7 @@ menuItems <- list(
 meta <- googleAnalyticsR::meta
 
 gentelellaPage(
+  shinyjs::useShinyjs(),
   column(width = 12, googleAnalyticsR::authDropdownUI("auth_dropdown", inColumns = TRUE)),
   tagList(
     column(width = 3,
@@ -44,7 +46,8 @@ gentelellaPage(
     column(width = 3,
            br(),
            actionButton("do_fetch", "Fetch Unsampled Data", class = "btn btn-primary"),
-           helpText("Please push button only once and be patient for big data fetches.")
+           shinyjs::hidden(tags$i(id = "working", class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"), p("Downloading...")),
+           helpText("Please be patient for big data fetches.")
            )
     ),
     dashboard_box(width = 12, box_title = "Unsampled data", menuItems = NULL, height = 800,
