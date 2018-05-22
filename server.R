@@ -90,7 +90,7 @@ function(input, output, session){
     
     ## disable download button
     out <- with_shiny(
-      google_analytics_4,
+      google_analytics,
       viewId = selected_id(),
       date_range = c(input$date_select[1], input$date_select[2]),
       metrics = input$metric_select,
